@@ -28,7 +28,8 @@
 
                 <button
                     type="button"
-                    @click="openFolder = null; $wire.openDeleteModal({{ $folder->id }})"
+                    @click="openFolder = null"
+                    wire:click="openDeleteModal({{ $folder->id }})"
                     class="hover:bg-gray-100 py-1.5 px-4 w-full rounded-md text-red-500 text-start cursor-pointer"
                 >
                     Delete
