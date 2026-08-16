@@ -22,14 +22,21 @@
                 x-show="openFolder === {{ $folder->id }} "
                 class="flex flex-col gap-1 p-2 w-40 items-start text-gray-900 rounded-lg bg-white border border-gray-200 absolute right-4 top-18"
             >
-                <button class="hover:bg-gray-100 py-1.5 px-4 w-full rounded-md text-start cursor-pointer">Edit</button>
+                <button
+                    type="button"
+                    wire:click="openEditModal({{ $folder->id }})"
+                    @click="openFolder = null"
+                    class="hover:bg-gray-100 py-1.5 px-4 w-full rounded-md text-start cursor-pointer"
+                >
+                    Edit
+                </button>
                 <button class="hover:bg-gray-100 py-1.5 px-4 w-full rounded-md text-start cursor-pointer">Duplicate</button>
                 <button class="hover:bg-gray-100 py-1.5 px-4 w-full rounded-md text-start cursor-pointer">Share</button>
 
                 <button
                     type="button"
-                    @click="openFolder = null"
                     wire:click="openDeleteModal({{ $folder->id }})"
+                    @click="openFolder = null"
                     class="hover:bg-gray-100 py-1.5 px-4 w-full rounded-md text-red-500 text-start cursor-pointer"
                 >
                     Delete
@@ -60,5 +67,4 @@
         </div>
     @endforeach
 
-    @include('livewire.pages.folder.delete-folder-modal')
 </div>

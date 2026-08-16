@@ -23,7 +23,7 @@
 
             <button
                 type="button"
-                wire:click="deleteFolder"
+                wire:click="delete"
                 class="bg-red-500 text-white font-semibold px-4 py-2 rounded-xl"
             >
                 Delete Folder

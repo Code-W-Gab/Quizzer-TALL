@@ -18,7 +18,7 @@ class QuizFolder extends Component
         $this->folders = $folders;
     }
 
-    public function openDeleteModal($id)
+    public function openDeleteModal(int $id)
     {
         $folder = Folder::findOrFail($id);
 
