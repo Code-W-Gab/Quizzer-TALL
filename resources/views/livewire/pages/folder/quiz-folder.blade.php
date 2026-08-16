@@ -59,7 +59,7 @@
 
             <div class="grid grid-cols-[1fr_1fr_45px] gap-3">
                 <button class="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-xl">Start Quiz</button>
-                <a class="text-center bg-gray-100 hover:bg-gray-200 cursor-pointer border border-gray-300 p-2 rounded-xl">Open</a>
+                <a href="{{ route('folder.show', $folder->id) }}" class="text-center bg-gray-100 hover:bg-gray-200 cursor-pointer border border-gray-300 p-2 rounded-xl">Open</a>
                 <button class="bg-gray-100 hover:bg-gray-200 border border-gray-300 p-2 rounded-xl flex items-center justify-center text-gray-600 cursor-pointer">
                     <x-lucide-share-2 class="size-4" />
                 </button>
