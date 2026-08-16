@@ -3,22 +3,22 @@
         [
             'label' => 'Dashboard',
             'route' => 'dashboard',
-            'icon' => 'icons.dashboard'
+            'icon' => 'layout-dashboard'
         ],
         [
             'label' => 'Quiz Folder',
-            'route' => 'quiz-folder.index',
-            'icon' => 'icons.folder'
+            'route' => 'quiz-folder',
+            'icon' => 'folder'
         ],
         [
             'label' => 'Shared with me',
             'route' => 'shared',
-            'icon' => 'icons.share'
+            'icon' => 'share-2'
         ],
         [
             'label' => 'Recent Quiz',
             'route' => 'recent-quiz',
-            'icon' => 'icons.clock'
+            'icon' => 'clock'
         ],
     ];
 
@@ -26,12 +26,12 @@
         [
             'label' => 'Import Shared',
             'route' => 'import-shared',
-            'icon' => 'icons.import'
+            'icon' => 'cloud-download'
         ],
         [
             'label' => 'Settings',
             'route' => 'settings',
-            'icon' => 'icons.setting'
+            'icon' => 'settings'
         ],
     ]
 @endphp
@@ -44,11 +44,11 @@
                     $isActive = request()->routeIs($nav['route']);
                 @endphp
 
-                <a
+                <a href="{{ route($nav['route']) }}"
                     class="{{  $isActive ? 'bg-blue-100 text-blue-500' : ''}} flex items-center gap-3 py-1.5 px-3 rounded-md hover:bg-blue-50"
                 >
-
-                    {{ $nav['label'] }}
+                    <x-dynamic-component :component="'lucide-' . $nav['icon']" class="size-5"/>
+                    <span>{{ $nav['label'] }}</span>
                 </a>
             @endforeach
         </div>
@@ -62,8 +62,8 @@
                 <a
                     class="{{  $isActive ? 'bg-blue-100 text-blue-500' : ''}} flex items-center gap-3 py-1.5 px-3 rounded-md hover:bg-blue-50"
                 >
-
-                    {{ $nav['label'] }}
+                    <x-dynamic-component :component="'lucide-' . $nav['icon']" class="size-5"/>
+                    <span>{{ $nav['label'] }}</span>
                 </a>
             @endforeach
         </div>
