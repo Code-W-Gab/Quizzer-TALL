@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Question extends Model
 {
     protected $fillable = [
-        'quiz_folder_id',
+        'folder_id',
         'type',
         'question_text'
     ];
@@ -19,7 +19,7 @@ class Question extends Model
 
     public function choices()
     {
-        return $this->hasMany(Question::class);
+        return $this->hasMany(Choice::class);
     }
 
     public function answers()

@@ -30,10 +30,13 @@
     {{-- Add questions --}}
     <div class="absolute bottom-10 right-10">
         <button
+            wire:click='openCreateQuestionModal'
             class="flex items-center gap-3 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-4xl cursor-pointer"
         >
             <x-lucide-plus class="size-4"/>
             Add Question
         </button>
     </div>
+
+    @include('livewire.pages.question.create-question-modal')
 </div>
