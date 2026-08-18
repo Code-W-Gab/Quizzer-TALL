@@ -3,14 +3,19 @@
         <div class="bg-white py-3 px-4 rounded-xl border border-gray-200">
             <div class="flex items-center justify-between">
                 <div class="flex items-center gap-4">
-                    <div class="bg-gray-200 text-gray-900 size-9 rounded-lg flex items-center justify-center">{{ $index + 1 }}</div>
+                    <div class="bg-gray-200 text-gray-900 size-9 rounded-lg flex items-center justify-center">
+                        {{ $index + 1 }}
+                    </div>
                     <div class="flex flex-col gap-1">
                         <h3 class="font-semibold">{{ $question->question_text }}?</h3>
-                        <span class="bg-blue-50 text-blue-700 rounded-xl px-3 py-0.5 w-fit text-sm truncate">{{ $question->type }}</p>
+                        <span class="bg-blue-50 text-blue-700 rounded-xl px-3 py-0.5 w-fit text-sm truncate">
+                            {{ $question->type }}
+                        </span>
                     </div>
                 </div>
                 <div class="flex items-center gap-3">
                     <button
+                        wire:click='openEditQuestionModal({{ $question->id }})'
                         class="text-gray-600 bg-gray-200 p-2 rounded-lg cursor-pointer hover:bg-gray-300"
                     >
                         <x-lucide-square-pen class="size-4"/>
@@ -24,8 +29,8 @@
                 </div>
             </div>
         </div>
-
     @endforeach
 
     @include('livewire.pages.question.delete-question-modal')
+    @include('livewire.pages.question.edit-question-modal')
 </div>

@@ -8,7 +8,7 @@ class Answer extends Model
 {
     protected $fillable = [
         'question_id',
-        'question_choice_id',
+        'choice_id',
         'exact_text'
     ];
 
