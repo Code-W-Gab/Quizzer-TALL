@@ -5,6 +5,7 @@ namespace App\Livewire\Pages\Folder;
 use App\Models\Folder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule as ValidationRule;
+use Illuminate\Validation\Rules\RequiredIf;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
 
@@ -14,7 +15,7 @@ class Show extends Component
 
     public $type = '';
     public $question = '';
-    public $correctAnswer = '';
+    public $identificationAnswer = '';
     public array $options = ['', '', '', ''];
     public ?int $correctOptionIndex = null;
     public ?string $trueFalseAnswer = null;
@@ -46,7 +47,7 @@ class Show extends Component
     {
         $this->type = '';
         $this->question = '';
-        $this->correctAnswer = '';
+        $this->identificationAnswer = '';
         $this->options = ['', '', '', ''];
         $this->correctOptionIndex = null;
         $this->trueFalseAnswer = null;
@@ -55,23 +56,37 @@ class Show extends Component
     public function rules()
     {
         return [
-            'type' => 'required|in:multiple_choice,true_false,identification,enumeration',
-            'question' => 'required|string|max:255',
-            'correctAnswer' => 'required_if:type,identification|string|max:255',
-            'trueFalseAnswer' => 'required_if:type,true_false|in:true,false',
+            'type' => ['required', 'in:multiple_choice,true_false,identification,enumeration'],
+            'question' => ['required', 'string', 'max:255'],
+
+            'identificationAnswer' => [
+                'required_if:type,identification',
+                'nullable',
+                'string',
+                'max:255',
+            ],
+
+            'trueFalseAnswer' => [
+                'required_if:type,true_false',
+                'nullable',
+                'in:true,false',
+            ],
+
             'options' => [
-                ValidationRule::requiredIf($this->type === 'multiple_choice'),
+                'required_if:type,multiple_choice',
                 'array',
                 'min:2',
                 'max:4',
             ],
+
             'options.*' => [
-                ValidationRule::requiredIf($this->type === 'multiple_choice'),
+                'nullable',
                 'string',
                 'max:255',
             ],
+
             'correctOptionIndex' => [
-                ValidationRule::requiredIf($this->type === 'multiple_choice'),
+                'required_if:type,multiple_choice',
                 'nullable',
                 'integer',
                 'min:0',
@@ -112,6 +127,8 @@ class Show extends Component
             return;
         }
 
+
+
         $question = $this->folder->questions()->create([
             'type' => $validated['type'],
             'question_text' => $validated['question'],
@@ -140,7 +157,14 @@ class Show extends Component
         if ($this->type === 'true_false') {
             $question->answers()->create([
                 'choice_id' => null,
-                'exact_text' => $this->trueFalseAnswer, // 'true' or 'false'
+                'exact_text' => $this->trueFalseAnswer,
+            ]);
+        }
+
+        if ($this->type === 'identification') {
+            $question->answers()->create([
+                'choice_id' => null,
+                'exact_text' => $this->identificationAnswer,
             ]);
         }
 

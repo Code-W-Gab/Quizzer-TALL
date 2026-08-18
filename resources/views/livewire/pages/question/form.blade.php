@@ -7,12 +7,12 @@
         <input
             id="identification_answer"
             type="text"
-            wire:model='correctAnswer'
+            wire:model='identificationAnswer'
             placeholder="Expected answers"
             :disabled="$wire.type !== 'identification'"
             class="rounded-lg border border-gray-200 bg-gray-100"
         />
-        <x-input-error :messages="$errors->get('answers')" class="mt-2" />
+        <x-input-error :messages="$errors->get('identificationAnswer')" class="mt-2" />
     </div>
 </div>
 
