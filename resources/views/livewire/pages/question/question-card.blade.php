@@ -16,6 +16,7 @@
                         <x-lucide-square-pen class="size-4"/>
                     </button>
                     <button
+                        wire:click='openDeleteQuestionModal({{ $question->id }})'
                         class="text-red-500 bg-gray-200 p-2 rounded-lg cursor-pointer hover:bg-gray-300"
                     >
                         <x-lucide-trash class="size-4"/>
@@ -23,5 +24,8 @@
                 </div>
             </div>
         </div>
+
     @endforeach
+
+    @include('livewire.pages.question.delete-question-modal')
 </div>

@@ -3,6 +3,7 @@
 namespace App\Livewire\Pages\Folder;
 
 use App\Models\Folder;
+use App\Models\Question;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule as ValidationRule;
 use Illuminate\Validation\Rules\RequiredIf;
@@ -19,8 +20,10 @@ class Show extends Component
     public array $options = ['', '', '', ''];
     public ?int $correctOptionIndex = null;
     public ?string $trueFalseAnswer = null;
+    public $deleteQuestionId;
 
     public $showCreateQuestionModal = false;
+    public $showDeleteQuestionModal = false;
 
     public function selectOption($index)
     {
@@ -41,6 +44,17 @@ class Show extends Component
     {
         $this->showCreateQuestionModal = false;
         $this->resetQuestionForm();
+    }
+
+    public function openDeleteQuestionModal(int $id)
+    {
+        $this->showDeleteQuestionModal = true;
+        $this->deleteQuestionId = $id;
+    }
+
+    public function closeDeleteQuestionModal()
+    {
+        $this->showDeleteQuestionModal = false;
     }
 
     public function resetQuestionForm()
@@ -169,6 +183,17 @@ class Show extends Component
         }
 
         $this->closeCreateQuestionModal();
+    }
+
+    public function deleteQuestion()
+    {
+        $question = Question::findOrFail($this->deleteQuestionId);
+
+        $question->delete();
+        $question->answers()->delete();
+        $question->choices()->delete();
+
+        $this->showDeleteQuestionModal = false;
     }
 
     public function mount(int $id)
