@@ -18,7 +18,7 @@
                 </div>
             </div>
             <div class="flex items-center gap-3">
-                <button class="bg-blue-500 text-white font-semibold px-4 py-2 rounded-lg hover:bg-blue-600">Start Quiz</button>
+                <a href="{{ route('start-quiz') }}" class="bg-blue-500 text-white font-semibold px-4 py-2 rounded-lg hover:bg-blue-600">Start Quiz</a>
                 <button class="bg-gray-200 border border-gray-300 font-semibold px-4 py-2 rounded-lg hover:bg-gray-300">Share</button>
             </div>
         </div>
@@ -37,6 +37,5 @@
             Add Question
         </button>
     </div>
-
-    @include('livewire.pages.question.create-question-modal')
+    @include('livewire.pages.question.create-question-modal')=
 </div>
