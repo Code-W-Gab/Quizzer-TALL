@@ -9,9 +9,11 @@ use Illuminate\Validation\Rule as ValidationRule;
 use Illuminate\Validation\Rules\RequiredIf;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Show extends Component
 {
+    use WithPagination;
     public $folder;
 
     public $type = '';
@@ -325,15 +327,20 @@ class Show extends Component
 
     public function mount(int $id)
     {
-        $this->folder = Folder::with(['questions.choices', 'questions.answers'])
-            ->where('user_id', Auth::id())
+        $this->folder = Folder::where('user_id', Auth::id())
             ->findOrFail($id);
     }
 
     public function render()
     {
+        $questions = $this->folder->questions()
+            ->with(['choices', 'answers'])
+            ->latest()
+            ->paginate(5);
+
         return view('livewire.pages.folder.show', [
             'folder' => $this->folder,
+            'questions' => $questions
         ]);
     }
 }

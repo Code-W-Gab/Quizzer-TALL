@@ -1,10 +1,10 @@
 <div class="flex flex-col gap-3">
-    @foreach ($folder->questions as $index => $question)
+    @foreach ($questions as $index => $question)
         <div class="bg-white py-3 px-4 rounded-xl border border-gray-200">
             <div class="flex items-center justify-between">
                 <div class="flex items-center gap-4">
                     <div class="bg-gray-200 text-gray-900 size-9 rounded-lg flex items-center justify-center">
-                        {{ $index + 1 }}
+                        {{ $questions->firstItem() + $index }}
                     </div>
                     <div class="flex flex-col gap-1">
                         <h3 class="font-semibold">{{ $question->question_text }}?</h3>
@@ -30,6 +30,8 @@
             </div>
         </div>
     @endforeach
+
+    <span>{{ $questions->links() }}</span>
 
     @include('livewire.pages.question.delete-question-modal')
     @include('livewire.pages.question.edit-question-modal')

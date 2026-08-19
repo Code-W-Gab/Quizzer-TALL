@@ -5,7 +5,7 @@
             <p class="text-gray-500">{{ $folder->description }}.</p>
             <div class="flex items-center gap-8">
                 <div>
-                    <h2 class="text-xl font-bold">{{ count($folder->questions) }}</h2>
+                    <h2 class="text-xl font-bold">{{ count($questions) }}</h2>
                     <span class="text-gray-500">Questions</span>
                 </div>
                 <div>
@@ -22,7 +22,7 @@
                 <button class="bg-gray-200 border border-gray-300 font-semibold px-4 py-2 rounded-lg hover:bg-gray-300">Share</button>
             </div>
         </div>
-        <div class="font-bold text-lg text-gray-900 px-2">Questions ({{ count($folder->questions) }})</div>
+        <div class="font-bold text-lg text-gray-900 px-2">Questions ({{ $questions->total() }})</div>
         {{-- All questions --}}
         @include('livewire.pages.question.question-card')
     </div>
