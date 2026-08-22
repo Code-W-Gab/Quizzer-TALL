@@ -18,19 +18,9 @@
                 @endforeach
             </div>
 
-            <div class="flex flex-col gap-4">
-                <h1 class="font-bold ">Questions Count</h1>
-                <div class="grid grid-cols-4 gap-3">
-                    <button class="border border-gray-300 bg-gray-100 py-2 rounded-lg font-semibold">10</button>
-                    <button class="border border-gray-300 bg-gray-100 py-2 rounded-lg font-semibold">20</button>
-                    <button class="border border-gray-300 bg-gray-100 py-2 rounded-lg font-semibold">30</button>
-                    <button class="border border-gray-300 bg-gray-100 py-2 rounded-lg font-semibold">All</button>
-                </div>
-            </div>
-
             <div class="grid grid-cols-2 gap-3">
                 <a href="{{ route('quiz-folder') }}" class="text-center border border-gray-300 bg-gray-100 py-3 rounded-lg font-semibold">Cancel</a>
-                <button class="bg-blue-500 text-white py-3 rounded-lg font-semibold">Start Quiz</button>
+                <a href="{{ route('quiz') }}" class="bg-blue-500 text-white py-3 rounded-lg font-semibold">Start Quiz</a>
             </div>
         </div>
     </div>
