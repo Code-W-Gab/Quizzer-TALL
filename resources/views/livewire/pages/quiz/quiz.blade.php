@@ -36,6 +36,17 @@
                     <button class="border border-gray-200 bg-gray-100 rounded-xl p-3">True</button>
                     <button class="border border-gray-200 bg-gray-100 rounded-xl p-3">False</button>
                 </div>
+
+                <div class="space-y-3">
+                    <input
+                        type="text"
+                        class="border border-gray-200 bg-gray-100 w-full rounded-xl h-11"
+                        placeholder="Type your answer..."
+                    >
+                    <div class="flex justify-end">
+                        <button class="bg-blue-500 text-white py-2 px-4 rounded-lg">Submit Answer</button>
+                    </div>
+                </div>
             </div>
 
         </div>
