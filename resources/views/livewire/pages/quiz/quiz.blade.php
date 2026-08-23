@@ -10,9 +10,30 @@
             </div>
 
             <div class="w-200 space-y-4 bg-white rounded-xl border-gray-200 p-4">
-                <h1 class="font-bold">What is the hottest planet</h1>
+                <h1 class="font-bold">What is the hottest planet?</h1>
+                {{-- Multiple Choice --}}
+                <div class="hidden flex-col gap-3">
+                    <div class="flex items-center gap-3 border border-gray-200 bg-gray-100 px-6 py-2 rounded-xl ">
+                        <span>A.</span>
+                        <p>Sun</p>
+                    </div>
+                    <div class="flex items-center gap-3 border border-gray-200 bg-gray-100 px-6 py-2 rounded-xl ">
+                        <span>B.</span>
+                        <p>Sun</p>
+                    </div>
+                    <div class="flex items-center gap-3 border border-gray-200 bg-gray-100 px-6 py-2 rounded-xl ">
+                        <span>C.</span>
+                        <p>Sun</p>
+                    </div>
+                    <div class="flex items-center gap-3 border border-gray-200 bg-gray-100 px-6 py-2 rounded-xl ">
+                        <span>D.</span>
+                        <p>Sun</p>
+                    </div>
+                </div>
+
 
             </div>
+
         </div>
     </main>
 </x-app-layout>
