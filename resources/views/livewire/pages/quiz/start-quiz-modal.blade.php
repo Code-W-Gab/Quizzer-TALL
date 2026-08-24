@@ -20,7 +20,7 @@
 
             <div class="grid grid-cols-2 gap-3">
                 <a href="{{ route('quiz-folder') }}" class="text-center border border-gray-300 bg-gray-100 py-3 rounded-lg font-semibold">Cancel</a>
-                <a href="{{ route('quiz') }}" class="bg-blue-500 text-white py-3 rounded-lg font-semibold">Start Quiz</a>
+                <a href="{{ route('quiz') }}" class="text-center bg-blue-500 text-white py-3 rounded-lg font-semibold">Start Quiz</a>
             </div>
         </div>
     </div>

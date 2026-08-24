@@ -11,11 +11,20 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
+        <style>[x-cloak] { display: none !important; }</style>
+
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased">
-        <div class="grid grid-cols-[250px_1fr] grid-rows-[60px_1fr] [grid-template-areas:'header_header''sidebar_main'] h-screen w-screen overflow-hidden bg-gray-100">
+    <body
+        class="font-sans antialiased"
+        x-data="{ openSidebar: true }"
+        x-cloak
+    >
+        <div
+            class="grid grid-rows-[60px_1fr] [grid-template-areas:'header_header''sidebar_main'] h-screen w-screen overflow-hidden bg-gray-100"
+            :class="openSidebar ? 'grid-cols-[250px_1fr]' : 'grid-cols-[70px_1fr]'"
+            >
             @include('layouts.header')
             @include('layouts.sidebar')
             <main class="[grid-area:main] overflow-y-auto relative">
