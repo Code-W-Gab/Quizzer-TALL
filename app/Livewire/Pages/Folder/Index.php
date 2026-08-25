@@ -15,6 +15,7 @@ class Index extends Component
     public $editFolderId;
     public $name = '';
     public $description = '';
+    public $term = '';
 
     public function openCreateModal()
     {
@@ -107,6 +108,12 @@ class Index extends Component
     }
     public function render()
     {
+        if ($this->term){
+            return view('livewire.pages.folder.index', [
+                'folders' => Folder::where('name', 'LIKE', "%{$this->term}%")->get()
+            ]);
+        };
+
         return view('livewire.pages.folder.index', [
             'folders' => Folder::with(['questions.choices', 'questions.answers'])
                         ->where('user_id', Auth::id())

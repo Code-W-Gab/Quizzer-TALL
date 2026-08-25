@@ -18,7 +18,9 @@ Route::get('recent-quiz', Index::class)->name('recent-quiz');
 Route::get('import-shared', Index::class)->name('import-shared');
 Route::get('settings', Index::class)->name('settings');
 Route::get('start-quiz', StartQuizModal::class)->name('start-quiz');
-Route::view('quiz', 'livewire.pages.quiz.quiz')->name('quiz');
+Route::view('quiz', 'livewire.pages.quiz.quiz')
+    ->middleware(['auth'])
+    ->name('quiz');
 Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');

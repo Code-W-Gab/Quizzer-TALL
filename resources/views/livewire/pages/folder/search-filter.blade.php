@@ -5,6 +5,7 @@
             type="text"
             name="folder"
             placeholder="Search folders..."
+            wire:model.live.debounce.200ms='term'
             class="border-none outline-none ring-0 focus:outline-none focus:ring-0 text-gray-600 w-full"
         >
     </div>

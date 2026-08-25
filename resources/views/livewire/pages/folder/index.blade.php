@@ -13,7 +13,7 @@
                 <span>Create Folder</span>
             </button>
         </header>
-        <livewire:pages.folder.search-filter>
+        @include('livewire.pages.folder.search-filter')
         @include('livewire.pages.folder.quiz-folder')
     </div>
 
