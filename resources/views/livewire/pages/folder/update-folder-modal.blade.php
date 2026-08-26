@@ -24,6 +24,5 @@
                     Update Folder
                 </button>
             </div>
-            </div>
         </div>
     </div>

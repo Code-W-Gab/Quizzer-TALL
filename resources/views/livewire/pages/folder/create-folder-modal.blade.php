@@ -11,7 +11,7 @@
             <div class="grid grid-cols-2 gap-4">
                 <button
                     type="button"
-                    wire:click='closeCreateModal'
+                    wire:click='showCreateModal = false'
                     class="bg-gray-200 border border-gray-300 font-semibold py-2 rounded-xl hover:bg-gray-300 cursor-pointer"
                 >
                     Cancel
@@ -23,7 +23,6 @@
                 >
                     Create Folder
                 </button>
-            </div>
             </div>
         </div>
     </div>
