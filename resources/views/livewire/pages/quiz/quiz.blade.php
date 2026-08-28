@@ -1,23 +1,48 @@
 <?php
 
 use Livewire\Volt\Component;
+use App\Models\Question;
 
 new class extends Component {
-    //
+    public array $questionIds = [];
+    public int $currentIndex = 0;
+    public ?Question $currentQuestion = null;
+
+    public function mount()
+    {
+        $this->questionIds = session('quiz_question_ids', []);
+
+        if (empty($this->questionIds)) {
+            $this->redirectRoute('quiz-folder');
+            return;
+        }
+
+        $this->loadQuestion();
+    }
+
+    public function loadQuestion()
+    {
+        $this->currentQuestion = Question::with(['choices', 'answers'])
+            ->findOrFail($this->questionIds[$this->currentIndex]);
+    }
 }; ?>
 
 <div class="flex justify-center">
     <div class="mt-6 space-y-4">
         <div class="bg-white rounded-xl border border-gray-200 p-4 space-y-4 w-200">
             <div class="flex items-center justify-between gap-4">
-                <h3>Question 1 of 3</h3>
+                <div class="text-sm text-gray-500">
+                    Question {{ $currentIndex + 1 }} of {{ count($questionIds) }}
+                </div>
                 <div class="bg-blue-50 text-blue-500 px-2 py-0.5 rounded-xl text-sm">multiple choices</div>
             </div>
             <x-progress-bar :value="75" />
         </div>
 
         <div class="w-200 space-y-4 bg-white rounded-xl border-gray-200 p-4">
-            <h1 class="font-bold text-lg">What is the hottest planet?</h1>
+            <h1 class="font-bold text-lg">
+                {{ $currentQuestion->question_text }}
+            </h1>
             {{-- Multiple Choice --}}
             <div class="hidden flex-col gap-3">
                 <div class="flex items-center gap-3 border border-gray-200 bg-gray-100 px-6 py-2 rounded-xl ">

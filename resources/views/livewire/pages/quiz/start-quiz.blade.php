@@ -2,6 +2,7 @@
 
 use Livewire\Volt\Component;
 use App\Models\Folder;
+use App\Models\Question;
 use Illuminate\Validation\Rule;
 
 new class extends Component {
@@ -9,20 +10,38 @@ new class extends Component {
     public array $selectedFolders = [];
 
     public function startQuiz()
-    {
-        $this->validate([
-            'selectedFolders' => ['required', 'array', 'min:1'],
-            'selectedFolders.*' => [
-                'integer',
-                Rule::exists('folders', 'id')
-                    ->where('user_id', Auth::id()),
-            ],
-        ]);
+{
+    $this->validate([
+        'selectedFolders' => ['required', 'array', 'min:1'],
+        'selectedFolders.*' => [
+            'integer',
+            Rule::exists('folders', 'id')
+                ->where('user_id', Auth::id()),
+        ],
+    ]);
 
-        session(['quiz_folder_ids' => $this->selectedFolders]);
+    $questionIds = Question::whereIn('folder_id', $this->selectedFolders)
+        ->inRandomOrder()
+        ->pluck('id')
+        ->values()
+        ->all();
 
-        $this->redirectRoute('quiz');
+    if (count($questionIds) === 0) {
+        $this->addError(
+            'selectedFolders',
+            'The selected folders do not contain any questions.'
+        );
+
+        return;
     }
+
+    session([
+        'quiz_folder_ids' => $this->selectedFolders,
+        'quiz_question_ids' => $questionIds,
+    ]);
+
+    $this->redirectRoute('quiz');
+}
 
     public function openStartQuizModal()
     {
