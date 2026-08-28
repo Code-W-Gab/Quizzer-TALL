@@ -1,26 +1,38 @@
 <?php
-
-use App\Livewire\Pages\Folder\Index;
-use App\Livewire\Pages\Folder\Show;
 use App\Livewire\Pages\Quiz\StartQuizModal;
 use Illuminate\Support\Facades\Route;
+use Livewire\Volt\Volt;
 
 Route::view('/', 'welcome');
 
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
+Volt::route('dashboard', 'pages.folder.index')
+    ->middleware('auth')
     ->name('dashboard');
 
-Route::get('quiz-folder', Index::class)->name('quiz-folder');
-Route::get('quiz-folder/{id}', Show::class)->name('folder.show')->middleware('auth');
-Route::get('shared', Index::class)->name('shared');
-Route::get('recent-quiz', Index::class)->name('recent-quiz');
-Route::get('import-shared', Index::class)->name('import-shared');
-Route::get('settings', Index::class)->name('settings');
-Route::get('start-quiz', StartQuizModal::class)->name('start-quiz');
-Route::view('quiz', 'livewire.pages.quiz.quiz')
-    ->middleware(['auth'])
+Volt::route('/quiz-folder', 'pages.folder.index')
+    ->middleware('auth')
+    ->name('quiz-folder');
+
+Volt::route('/shared', 'pages.folder.index')
+    ->middleware('auth')
+    ->name('shared');
+
+Volt::route('/recent-quiz', 'pages.folder.index')
+    ->middleware('auth')
+    ->name('recent-quiz');
+
+Volt::route('quiz-folder/{id}', 'pages.folder.show')
+    ->middleware('auth')
+    ->name('folder.show');
+
+Volt::route('start-quiz', 'pages.quiz.start-quiz')
+    ->middleware('auth')
+    ->name('start-quiz');
+
+Volt::route('quiz', 'pages.quiz.quiz')
+    ->middleware('auth')
     ->name('quiz');
+
 Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');

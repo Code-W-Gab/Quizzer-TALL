@@ -17,13 +17,15 @@
     </head>
     <body
         class="font-sans antialiased"
-        x-data="{ openSidebar: true }"
-        x-cloak
+        x-data="{
+            openSidebar: localStorage.getItem('sidebar-open') !== 'false'
+        }"
+        x-init="$watch('openSidebar', value => localStorage.setItem('sidebar-open', value))"
     >
         <div
             class="grid grid-rows-[60px_1fr] [grid-template-areas:'header_header''sidebar_main'] h-screen w-screen overflow-hidden bg-gray-100"
             :class="openSidebar ? 'grid-cols-[250px_1fr]' : 'grid-cols-[70px_1fr]'"
-            >
+        >
             @include('layouts.header')
             @include('layouts.sidebar')
             <main class="[grid-area:main] overflow-y-auto relative">

@@ -1,4 +1,28 @@
-<main class="flex justify-center mt-10">
+<?php
+
+use Livewire\Volt\Component;
+use App\Models\Folder;
+
+new class extends Component {
+    public $showStartQuizModal = false;
+    public function openStartQuizModal()
+    {
+        $this->showStartQuizModal = true;
+    }
+
+    public function render(): mixed
+    {
+        $folders = Folder::where('user_id', Auth::id())
+            ->latest()
+            ->get();
+
+        return view('livewire.pages.quiz.start-quiz', [
+            'folders' => $folders
+        ]);
+    }
+}; ?>
+
+<div class="flex justify-center mt-10">
     <div class="bg-white rounded-xl w-200">
         <div class="p-6">
             <h2 class="text-2xl font-bold text-gray-900">Quiz Setup</h2>
@@ -24,4 +48,5 @@
             </div>
         </div>
     </div>
-</main>
+</div>
+

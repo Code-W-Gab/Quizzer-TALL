@@ -15,9 +15,21 @@ new class extends Component {
     public $description = '';
     public $term = '';
 
-    // EDIT MODAL
-    public function openEditModal(Folder $folder)
+    public function openCreateModal()
     {
+        $this->showCreateModal = true;
+    }
+
+    public function closeCreateModal()
+    {
+        $this->showCreateModal = false;
+        $this->resetForm();
+    }
+
+    // EDIT MODAL
+    public function openEditModal(int $folderId): void
+    {
+        $folder = Folder::where('user_id', Auth::id())->findOrFail($folderId);
         $this->name = $folder->name;
         $this->description = $folder->description;
         $this->editFolderId = $folder->id;
@@ -31,8 +43,9 @@ new class extends Component {
     }
 
     // DELETE MODAL
-    public function openDeleteModal(Folder $folder)
+    public function openDeleteModal(int $folderId)
     {
+        $folder = Folder::where('user_id', Auth::id())->findOrFail($folderId);
         $this->deleteFolderName = $folder->name;
         $this->deleteFolderId = $folder->id;
         $this->showDeleteModal = true;
@@ -79,7 +92,8 @@ new class extends Component {
     public function update()
     {
         $this->validate($this->rules());
-        $folder = Folder::findOrFail($this->editFolderId);
+        $folder = Folder::where('user_id', Auth::id())
+            ->findOrFail($this->editFolderId);
         $folder->update([
             'name' => $this->name,
             'description' => $this->description
@@ -92,20 +106,26 @@ new class extends Component {
     // DELETE
     public function delete()
     {
-        Folder::findOrFail($this->deleteFolderId)->delete();
+        Folder::where('user_id', Auth::id())
+            ->findOrFail($this->deleteFolderId)
+            ->delete();
+
         $this->showDeleteModal = false;
         $this->redirect('/quiz-folder', navigate:true);
     }
 
     public function render(): mixed
     {
-        if ($this->term){
+        if ($this->term) {
             return $this->view([
-                'folders' => Folder::where('name', 'LIKE', "%{$this->term}%")->get()
+                'folders' => Folder::where('user_id', Auth::id())
+                    ->where('name', 'LIKE', "%{$this->term}%")
+                    ->latest()
+                    ->get(),
             ]);
-        };
+        }
 
-        return $this->view([
+        return view('livewire.pages.folder.index', [
             'folders' => Folder::with(['questions.choices', 'questions.answers'])
                         ->where('user_id', Auth::id())
                         ->latest()
@@ -124,7 +144,7 @@ new class extends Component {
             </div>
             <button
                 type="button"
-                wire:click='$wire.showCreateModal = true'
+                wire:click="openCreateModal"
                 class="bg-blue-500 text-white py-2 px-3 rounded-lg flex items-center gap-2"
             >
                 <span>Create Folder</span>

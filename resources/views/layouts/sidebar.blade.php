@@ -54,7 +54,7 @@
                     $isActive = request()->routeIs($nav['route']);
                 @endphp
 
-                <a href="{{ route($nav['route']) }}"
+                <a  href="{{ route($nav['route']) }}"
                     class="{{  $isActive ? 'bg-blue-100 text-blue-500' : ''}} flex items-center gap-3 py-1.5 px-3 rounded-md hover:bg-blue-50"
                 >
                     <x-dynamic-component :component="'lucide-' . $nav['icon']" class="size-5"/>
