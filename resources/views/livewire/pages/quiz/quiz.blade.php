@@ -8,6 +8,7 @@ new class extends Component {
     public int $currentIndex = 0;
     public ?Question $currentQuestion = null;
     public ?int $selectedChoiceId = null;
+    public ?string $selectedTrueFalseAnswer = null;
     public bool $showResult = false;
 
     public function mount()
@@ -31,6 +32,7 @@ new class extends Component {
             ->findOrFail($this->questionIds[$this->currentIndex]);
     }
 
+    // Multiple choice
     public function selectChoice(int $choiceId)
     {
         if ($this->showResult) {
@@ -38,6 +40,17 @@ new class extends Component {
         }
 
         $this->selectedChoiceId = $choiceId;
+        $this->showResult = true;
+    }
+
+    // True or false
+    public function selectTrueFalseAnswer(string $value)
+    {
+        if ($this->showResult) {
+            return;
+        }
+
+        $this->selectedTrueFalseAnswer = $value;
         $this->showResult = true;
     }
 
@@ -103,9 +116,43 @@ new class extends Component {
             @endif
 
             @if ($currentQuestion && $currentQuestion->type === 'true_false')
+                @php
+                    $correctAnswer = strtolower($currentQuestion->answers()->value('exact_text'));
+                    $selectedAnswer = strtolower((string) $selectedTrueFalseAnswer);
+
+                    $trueIsCorrect = $showResult && $correctAnswer === 'true';
+                    $falseIsCorrect = $showResult && $correctAnswer === 'false';
+
+                    $trueIsWrong = $showResult && $selectedAnswer === 'true' && $correctAnswer !== 'true';
+                    $falseIsWrong = $showResult && $selectedAnswer === 'false' && $correctAnswer !== 'false';
+                @endphp
+
                 <div class="grid grid-cols-2 gap-3">
-                    <button type="button" class="border border-gray-200 bg-gray-100 rounded-xl p-3">True</button>
-                    <button type="button" class="border border-gray-200 bg-gray-100 rounded-xl p-3">False</button>
+                    <button
+                        type="button"
+                        wire:click='selectTrueFalseAnswer("true")'
+                        class="border rounded-xl p-3 transition cursor-pointer hover:bg-gray-200
+                            {{ $trueIsCorrect
+                                ? 'border-green-500 bg-green-50 text-green-700'
+                                : ($trueIsWrong
+                                    ? 'border-red-500 bg-red-50 text-red-700'
+                                    : 'border-gray-200 bg-gray-100 text-gray-800') }}"
+                    >
+                        True
+                    </button>
+
+                    <button
+                        type="button"
+                        wire:click='selectTrueFalseAnswer("false")'
+                        class="border rounded-xl p-3 transition cursor-pointer hover:bg-gray-200
+                            {{ $falseIsCorrect
+                                ? 'border-green-500 bg-green-50 text-green-700'
+                                : ($falseIsWrong
+                                    ? 'border-red-500 bg-red-50 text-red-700'
+                                    : 'border-gray-200 bg-gray-100 text-gray-800') }}"
+                    >
+                        False
+                    </button>
                 </div>
             @endif
 
