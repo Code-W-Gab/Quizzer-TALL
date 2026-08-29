@@ -10,9 +10,13 @@ new class extends Component {
     public ?int $selectedChoiceId = null;
     public ?string $selectedTrueFalseAnswer = null;
     public bool $showResult = false;
+    public int $score = 0;
+    public ?string $correctAnswer = null;
+    public ?int $correctChoiceId = null;
 
     public function mount()
     {
+        $this->score = 0;
         $this->questionIds = session('quiz_question_ids', []);
 
         if (empty($this->questionIds)) {
@@ -40,6 +44,13 @@ new class extends Component {
         }
 
         $this->selectedChoiceId = $choiceId;
+
+        $this->correctChoiceId = $this->currentQuestion->answers()->value('choice_id');
+
+        if ((int) $choiceId === (int) $this->correctChoiceId){
+            $this->score++;
+        }
+
         $this->showResult = true;
     }
 
@@ -51,6 +62,12 @@ new class extends Component {
         }
 
         $this->selectedTrueFalseAnswer = $value;
+
+        $this->correctAnswer = strtolower((string) $this->currentQuestion->answers()->value('exact_text'));
+
+        if (strtolower($value) === $this->correctAnswer){
+            $this->score++;
+        }
         $this->showResult = true;
     }
 
@@ -73,8 +90,13 @@ new class extends Component {
                 <div class="text-sm text-gray-500">
                     Question {{ $currentIndex + 1 }} of {{ count($questionIds) }}
                 </div>
-                <div class="bg-blue-50 text-blue-500 px-2 py-0.5 rounded-xl text-sm">
-                    {{ str($currentQuestion->type)->replace('_', ' ')->title() }}
+                <div class="flex items-center gap-2">
+                    <div class="bg-blue-50 text-blue-500 px-2 py-0.5 rounded-xl text-sm">
+                        <span>{{ str($currentQuestion->type)->replace('_', ' ')->title() }}</span>
+                    </div>
+                    <div class="text-sm text-green-500 font-medium">
+                        Score {{ $score }}/10
+                    </div>
                 </div>
             </div>
 
@@ -87,10 +109,6 @@ new class extends Component {
             </h1>
 
             @if ($currentQuestion && $currentQuestion->type === 'multiple_choice')
-                @php
-                    $correctChoiceId = $currentQuestion->answers()->value('choice_id');
-                @endphp
-
                 <div class="flex flex-col gap-3">
                     @foreach ($currentQuestion->choices as $choice)
                         @php
@@ -117,7 +135,6 @@ new class extends Component {
 
             @if ($currentQuestion && $currentQuestion->type === 'true_false')
                 @php
-                    $correctAnswer = strtolower($currentQuestion->answers()->value('exact_text'));
                     $selectedAnswer = strtolower((string) $selectedTrueFalseAnswer);
 
                     $trueIsCorrect = $showResult && $correctAnswer === 'true';
