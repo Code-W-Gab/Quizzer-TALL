@@ -191,7 +191,8 @@ new class extends Component {
             <button
                 type="button"
                 wire:click="nextQuestion"
-                class="bg-blue-500 text-white py-2 px-10 rounded-md"
+                class="bg-blue-500 text-white py-2 px-10 rounded-md cursor-pointer"
+                @disabled(!$showResult)
             >
                 Next
             </button>
