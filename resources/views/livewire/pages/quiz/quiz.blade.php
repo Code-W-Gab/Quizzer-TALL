@@ -71,7 +71,7 @@ new class extends Component {
         $this->showResult = true;
     }
 
-    public function nextQuestion()
+    public function skipQuestion()
     {
         if (! isset($this->questionIds[$this->currentIndex + 1])) {
             $this->redirectRoute('quiz-folder');
@@ -95,12 +95,12 @@ new class extends Component {
                         <span>{{ str($currentQuestion->type)->replace('_', ' ')->title() }}</span>
                     </div>
                     <div class="text-sm text-green-500 font-medium">
-                        Score {{ $score }}/10
+                        Score {{ $score }}/{{ count($questionIds) }}
                     </div>
                 </div>
             </div>
 
-            <x-progress-bar :value="75" />
+            <x-progress-bar :value="$score" :min="0" :max="count($questionIds)" />
         </div>
 
         <div class="w-200 space-y-4 bg-white rounded-xl border-gray-200 p-4">
@@ -187,11 +187,18 @@ new class extends Component {
             @endif
         </div>
 
-        <div class="flex justify-end">
+        <div class="flex justify-end gap-3">
+            <button
+                type="button"
+                wire:click='skipQuestion'
+                class="border border-gray-400 text-gray-700 px-10 py-2 rounded-md cursor-pointer hover:bg-gray-200"
+            >
+                Skip
+            </button>
             <button
                 type="button"
                 wire:click="nextQuestion"
-                class="bg-blue-500 text-white py-2 px-10 rounded-md cursor-pointer"
+                class="bg-blue-500 text-white py-2 px-10 rounded-md cursor-pointer hover:bg-blue-600"
                 @disabled(!$showResult)
             >
                 Next
