@@ -81,6 +81,22 @@ new class extends Component {
         $this->currentIndex++;
         $this->loadQuestion();
     }
+
+    public function nextQuestion()
+    {
+        if (! $this->showResult) {
+            $this->addError('answer', 'Please select an answer first.');
+            return;
+        }
+
+        if (! isset($this->questionIds[$this->currentIndex + 1])) {
+            $this->redirectRoute('quiz-folder');
+            return;
+        }
+
+        $this->currentIndex++;
+        $this->loadQuestion();
+    }
 }; ?>
 
 <div class="flex justify-center">
@@ -100,7 +116,7 @@ new class extends Component {
                 </div>
             </div>
 
-            <x-progress-bar :value="$score" :min="0" :max="count($questionIds)" />
+            <x-progress-bar :value="$currentIndex + 1" :min="0" :max="count($questionIds)" />
         </div>
 
         <div class="w-200 space-y-4 bg-white rounded-xl border-gray-200 p-4">
@@ -185,6 +201,10 @@ new class extends Component {
                     </div>
                 </div>
             @endif
+
+            @error('answer')
+                <p class="text-sm text-red-500">{{ $message }}</p>
+            @enderror
         </div>
 
         <div class="flex justify-end gap-3">
@@ -199,7 +219,6 @@ new class extends Component {
                 type="button"
                 wire:click="nextQuestion"
                 class="bg-blue-500 text-white py-2 px-10 rounded-md cursor-pointer hover:bg-blue-600"
-                @disabled(!$showResult)
             >
                 Next
             </button>
