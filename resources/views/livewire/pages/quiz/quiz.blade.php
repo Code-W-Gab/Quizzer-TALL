@@ -11,6 +11,8 @@ new class extends Component {
     public ?string $selectedTrueFalseAnswer = null;
     public bool $showResult = false;
     public int $score = 0;
+    public int $skip = 0;
+    public int $wrong = 0;
     public ?string $correctAnswer = null;
     public ?int $correctChoiceId = null;
 
@@ -51,6 +53,10 @@ new class extends Component {
             $this->score++;
         }
 
+        if ((int) $choiceId !== (int) $this->correctChoiceId){
+            $this->wrong++;
+        }
+
         $this->showResult = true;
     }
 
@@ -68,6 +74,11 @@ new class extends Component {
         if (strtolower($value) === $this->correctAnswer){
             $this->score++;
         }
+
+        if (strtolower($value) !== $this->correctAnswer){
+            $this->wrong++;
+        }
+
         $this->showResult = true;
     }
 
@@ -78,6 +89,7 @@ new class extends Component {
             return;
         }
 
+        $this->skip++;
         $this->currentIndex++;
         $this->loadQuestion();
     }
@@ -90,17 +102,28 @@ new class extends Component {
         }
 
         if (! isset($this->questionIds[$this->currentIndex + 1])) {
-            $this->redirectRoute('quiz-folder');
+            $this->finishQuiz();
             return;
         }
 
         $this->currentIndex++;
         $this->loadQuestion();
     }
+
+    public function finishQuiz()
+    {
+        session()->put('quiz_result', [
+            'score' => $this->score,
+            'wrong' => $this->wrong,
+            'skip' => $this->skip
+        ]);
+
+        $this->redirectRoute('result');
+    }
 }; ?>
 
 <div class="flex justify-center">
-    <div class="mt-6 space-y-4">
+    <div class="my-6 space-y-4">
         <div class="bg-white rounded-xl border border-gray-200 p-4 space-y-4 w-200">
             <div class="flex items-center justify-between gap-4">
                 <div class="text-sm text-gray-500">
@@ -220,7 +243,7 @@ new class extends Component {
                 wire:click="nextQuestion"
                 class="bg-blue-500 text-white py-2 px-10 rounded-md cursor-pointer hover:bg-blue-600"
             >
-                Next
+                {{ $currentIndex + 1 === count($questionIds) ? 'Finish' : 'Next'  }}
             </button>
         </div>
     </div>

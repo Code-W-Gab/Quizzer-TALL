@@ -33,6 +33,10 @@ Volt::route('quiz', 'pages.quiz.quiz')
     ->middleware('auth')
     ->name('quiz');
 
+Volt::route('result', 'pages.quiz.result')
+    ->middleware('auth')
+    ->name('result');
+
 Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');

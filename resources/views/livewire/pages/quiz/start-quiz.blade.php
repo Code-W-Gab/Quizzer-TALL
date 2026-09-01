@@ -10,38 +10,38 @@ new class extends Component {
     public array $selectedFolders = [];
 
     public function startQuiz()
-{
-    $this->validate([
-        'selectedFolders' => ['required', 'array', 'min:1'],
-        'selectedFolders.*' => [
-            'integer',
-            Rule::exists('folders', 'id')
-                ->where('user_id', Auth::id()),
-        ],
-    ]);
+    {
+        $this->validate([
+            'selectedFolders' => ['required', 'array', 'min:1'],
+            'selectedFolders.*' => [
+                'integer',
+                Rule::exists('folders', 'id')
+                    ->where('user_id', Auth::id()),
+            ],
+        ]);
 
-    $questionIds = Question::whereIn('folder_id', $this->selectedFolders)
-        ->inRandomOrder()
-        ->pluck('id')
-        ->values()
-        ->all();
+        $questionIds = Question::whereIn('folder_id', $this->selectedFolders)
+            ->inRandomOrder()
+            ->pluck('id')
+            ->values()
+            ->all();
 
-    if (count($questionIds) === 0) {
-        $this->addError(
-            'selectedFolders',
-            'The selected folders do not contain any questions.'
-        );
+        if (count($questionIds) === 0) {
+            $this->addError(
+                'selectedFolders',
+                'The selected folders do not contain any questions.'
+            );
 
-        return;
+            return;
+        }
+
+        session([
+            'quiz_folder_ids' => $this->selectedFolders,
+            'quiz_question_ids' => $questionIds,
+        ]);
+
+        $this->redirectRoute('quiz');
     }
-
-    session([
-        'quiz_folder_ids' => $this->selectedFolders,
-        'quiz_question_ids' => $questionIds,
-    ]);
-
-    $this->redirectRoute('quiz');
-}
 
     public function openStartQuizModal()
     {
@@ -60,8 +60,8 @@ new class extends Component {
     }
 }; ?>
 
-<div class="flex justify-center mt-10">
-    <div class="bg-white rounded-xl w-200">
+<div class="flex justify-center">
+    <div class="bg-white rounded-xl w-200 my-6">
         <div class="p-6">
             <h2 class="text-2xl font-bold text-gray-900">Quiz Setup</h2>
             <p class="text-gray-500">Configure your quiz session before you start.</p>
