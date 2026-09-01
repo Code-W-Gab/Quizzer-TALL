@@ -37,6 +37,10 @@ Volt::route('result', 'pages.quiz.result')
     ->middleware('auth')
     ->name('result');
 
+Volt::route('review-answer', 'pages.quiz.review-answer')
+    ->middleware('auth')
+    ->name('review-answer');
+
 Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');

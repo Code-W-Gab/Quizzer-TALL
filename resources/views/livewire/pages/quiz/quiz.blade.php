@@ -84,8 +84,12 @@ new class extends Component {
 
     public function skipQuestion()
     {
+        if ($this->showResult){
+            return;
+        }
+
         if (! isset($this->questionIds[$this->currentIndex + 1])) {
-            $this->redirectRoute('quiz-folder');
+            $this->finishQuiz();
             return;
         }
 

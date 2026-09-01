@@ -19,6 +19,12 @@ new class extends Component {
         $this->wrong = ($result['wrong'] ?? 0);
         $this->skip = ($result['skip'] ?? 0);
     }
+
+    public function reviewAnswer()
+    {
+        $this->redirectRoute('review-answer');
+    }
+
 }; ?>
 
 <div class="flex justify-center items-center">
@@ -39,7 +45,7 @@ new class extends Component {
             </div>
         </div>
         <div class="grid grid-cols-2 gap-3">
-            <button class="rounded-xl border border-gray-300 bg-gray-100 text-gray-700 p-3 hover:bg-gray-200">Review Answers</button>
+            <button wire:click='reviewAnswer' class="rounded-xl border border-gray-300 bg-gray-100 text-gray-700 p-3 hover:bg-gray-200">Review Answers</button>
             <button class="rounded-xl text-white bg-blue-500 p-3 hover:bg-blue-600">Retake Quiz</button>
         </div>
         <div>
