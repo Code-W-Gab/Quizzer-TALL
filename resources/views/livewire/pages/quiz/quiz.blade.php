@@ -49,11 +49,25 @@ new class extends Component {
 
         $this->correctChoiceId = $this->currentQuestion->answers()->value('choice_id');
 
-        if ((int) $choiceId === (int) $this->correctChoiceId){
+        $selectedChoice = $this->currentQuestion->choices
+            ->firstWhere('id', $choiceId);
+
+        $correctChoice = $this->currentQuestion->choices
+            ->firstWhere('id', $this->correctChoiceId);
+
+        $isCorrect = (int) $choiceId === (int) $this->correctChoiceId;
+
+        $this->saveReviewAnswer(
+            $selectedChoice?->choice_text ?? '',
+            $correctChoice?->choice_text ?? '',
+            $isCorrect
+        );
+
+        if ($isCorrect){
             $this->score++;
         }
 
-        if ((int) $choiceId !== (int) $this->correctChoiceId){
+        if (!$isCorrect){
             $this->wrong++;
         }
 
@@ -71,11 +85,19 @@ new class extends Component {
 
         $this->correctAnswer = strtolower((string) $this->currentQuestion->answers()->value('exact_text'));
 
-        if (strtolower($value) === $this->correctAnswer){
+        $isCorrect = strtolower($value) === $this->correctAnswer;
+
+        $this->saveReviewAnswer(
+            $value,
+            $this->correctAnswer,
+            $isCorrect
+        );
+
+        if ($isCorrect){
             $this->score++;
         }
 
-        if (strtolower($value) !== $this->correctAnswer){
+        if (!$isCorrect){
             $this->wrong++;
         }
 
@@ -123,6 +145,23 @@ new class extends Component {
         ]);
 
         $this->redirectRoute('result');
+    }
+
+    public function saveReviewAnswer(string $userAnswer, string $correctAnswer, bool $isCorrect)
+    {
+        $reviewAnswers = session('quiz_review_answers', []);
+
+        $reviewAnswers[$this->currentQuestion->id] = [
+            'question_id' => $this->currentQuestion->id,
+            'question' => $this->currentQuestion->question_text,
+            'user_answer' => $userAnswer,
+            'correct_answer' => $correctAnswer,
+            'wrong_answer' => $isCorrect ? null : $userAnswer,
+            'is_correct' => $isCorrect,
+            'status' => 'answered',
+        ];
+
+        session()->put('quiz_review_answers', $reviewAnswers);
     }
 }; ?>
 

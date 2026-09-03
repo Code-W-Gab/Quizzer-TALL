@@ -38,6 +38,7 @@ new class extends Component {
         session([
             'quiz_folder_ids' => $this->selectedFolders,
             'quiz_question_ids' => $questionIds,
+            'quiz_review_answers' => [],
         ]);
 
         $this->redirectRoute('quiz');
