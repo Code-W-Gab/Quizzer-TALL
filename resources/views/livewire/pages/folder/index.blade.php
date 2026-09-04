@@ -117,7 +117,7 @@ new class extends Component {
     public function render(): mixed
     {
         if ($this->term) {
-            return $this->view([
+            return view('livewire.pages.folder.index', [
                 'folders' => Folder::where('user_id', Auth::id())
                     ->where('name', 'LIKE', "%{$this->term}%")
                     ->latest()

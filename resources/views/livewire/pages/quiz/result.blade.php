@@ -45,11 +45,11 @@ new class extends Component {
             </div>
         </div>
         <div class="grid grid-cols-2 gap-3">
-            <button wire:click='reviewAnswer' class="rounded-xl border border-gray-300 bg-gray-100 text-gray-700 p-3 hover:bg-gray-200">Review Answers</button>
-            <a href="{{ route('start-quiz') }}" class="text-center rounded-xl text-white bg-blue-500 p-3 hover:bg-blue-600">Retake Quiz</a>
+            <button wire:click='reviewAnswer' wire:navigate class="rounded-xl border border-gray-300 bg-gray-100 text-gray-700 p-3 hover:bg-gray-200">Review Answers</button>
+            <a href="{{ route('start-quiz') }}" wire:navigate class="text-center rounded-xl text-white bg-blue-500 p-3 hover:bg-blue-600">Retake Quiz</a>
         </div>
         <div class="flex items-center">
-            <a href="{{ route('quiz-folder') }}" class="text-center w-full rounded-xl border border-gray-300 text-gray-700 p-3 hover:bg-gray-100">Back to Dashboard</a>
+            <a href="{{ route('quiz-folder') }}" wire:navigate class="text-center w-full rounded-xl border border-gray-300 text-gray-700 p-3 hover:bg-gray-100">Back to Dashboard</a>
         </div>
     </div>
 </div>
