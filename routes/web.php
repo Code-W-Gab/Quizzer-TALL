@@ -33,6 +33,10 @@ Volt::route('quiz', 'pages.quiz.quiz')
     ->middleware('auth')
     ->name('quiz');
 
+Volt::route('shared', 'pages.shared.index')
+    ->middleware('auth')
+    ->name('shared');
+
 Volt::route('result', 'pages.quiz.result')
     ->middleware('auth')
     ->name('result');
