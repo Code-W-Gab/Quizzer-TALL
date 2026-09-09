@@ -41,6 +41,14 @@ Volt::route('recent-quiz', 'pages.recent.index')
     ->middleware('auth')
     ->name('recent-quiz');
 
+Volt::route('import-quiz', 'pages.import.index')
+    ->middleware('auth')
+    ->name('import-quiz');
+
+Volt::route('setting', 'pages.setting.index')
+    ->middleware('auth')
+    ->name('setting');
+
 Volt::route('result', 'pages.quiz.result')
     ->middleware('auth')
     ->name('result');
