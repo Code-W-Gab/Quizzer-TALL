@@ -65,7 +65,7 @@ new class extends Component {
                     <a href="" class="text-blue-500 text-sm font-medium hover:underline">View All</a>
                 </div>
                 <div class="mt-4">
-                    <div class="flex items-center justify-between hover:bg-gray-100">
+                    <div class="flex items-center justify-between">
                         <h1 class="font-medium">Create Biology Folder</h1>
                         <span class="text-gray-500 text-sm">2 min ago</span>
                     </div>

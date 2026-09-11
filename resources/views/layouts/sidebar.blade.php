@@ -20,12 +20,9 @@
             'route' => 'recent-quiz',
             'icon' => 'clock'
         ],
-    ];
-
-    $navs = [
         [
             'label' => 'Import Shared',
-            'route' => 'import-shared',
+            'route' => 'import',
             'icon' => 'cloud-download'
         ],
         [
@@ -33,7 +30,7 @@
             'route' => 'settings',
             'icon' => 'settings'
         ],
-    ]
+    ];
 @endphp
 
 <nav
@@ -61,24 +58,12 @@
                     <x-dynamic-component :component="'lucide-' . $nav['icon']" class="size-5"/>
                     <span>{{ $nav['label'] }}</span>
                 </a>
+                @if ($nav['label'] === 'Recent Quiz')
+                    <div class="border-b border-gray-300 "></div>
+                @endif
             @endforeach
         </div>
-        <div class="border-b border-gray-300 mx-4"></div>
-        <div class="flex flex-col gap-4 py-6 px-3">
-            @foreach ($navs as $nav)
-                @php
-                    $isActive = request()->routeIs($nav['route']);
-                @endphp
 
-                <a
-                    wire:navigate
-                    class="{{  $isActive ? 'bg-blue-100 text-blue-500' : ''}} flex items-center gap-3 py-1.5 px-3 rounded-md hover:bg-blue-50"
-                >
-                    <x-dynamic-component :component="'lucide-' . $nav['icon']" class="size-5"/>
-                    <span>{{ $nav['label'] }}</span>
-                </a>
-            @endforeach
-        </div>
     </div>
     <form class="flex items-center justify-between bg-white p-4 border-t border-gray-300">
 
@@ -114,20 +99,9 @@
             >
                 <x-dynamic-component :component="'lucide-' . $nav['icon']" class="size-5"/>
             </a>
-        @endforeach
-    </div>
-    <div class="border-b border-gray-300 mx-4"></div>
-    <div class="flex flex-col gap-4 py-6 px-3">
-        @foreach ($navs as $nav)
-            @php
-                $isActive = request()->routeIs($nav['route']);
-            @endphp
-
-            <a
-                class="{{  $isActive ? 'bg-blue-100 text-blue-500' : ''}} flex items-center gap-3 py-1.5 px-3 rounded-md hover:bg-blue-50"
-            >
-                <x-dynamic-component :component="'lucide-' . $nav['icon']" class="size-5"/>
-            </a>
+            @if ($nav['label'] === 'Recent Quiz')
+                <div class="border-b border-gray-300 "></div>
+            @endif
         @endforeach
     </div>
 </nav>
